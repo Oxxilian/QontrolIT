@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-CONFIG_FILE = BASE_DIR / "config" / "folder_mapping.json"
+CONFIG_FILE = BASE_DIR / "data" / "folder_mapping.json"
 
 
 def load_mapping():
