@@ -1,0 +1,20 @@
+{
+    "Bestellingen": {
+        "type": "orders"
+    },
+    "Calculatie": {
+        "type": "calculation"
+    },
+    "Conservering": {
+        "type": "conservation"
+    },
+    "Kwaliteit": {
+        "type": "quality"
+    },
+    "Productie": {
+        "type": "production"
+    },
+    "Tekeningen": {
+        "type": "drawings"
+    }
+}
