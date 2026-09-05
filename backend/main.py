@@ -1,61 +1,42 @@
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
-from sqlalchemy import text
 
-from backend.core.database import Base, engine
+from backend.config.settings import APP_NAME, APP_VERSION
+from backend.core.databases.init_db import init_databases
+from backend.core.loggings import logger
 
-# Routers
-from backend.modules.materials.router import router as materials_router
-from backend.modules.projects.router import router as projects_router
-from backend.modules.importer.router import router as importer_router
-
-# Models (nodig voor het aanmaken van tabellen)
-from backend.modules.materials import model as materials_model
-from backend.modules.projects import model as projects_model
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    try:
-        # Maak alle database-tabellen aan
-        Base.metadata.create_all(bind=engine)
-
-        # Test de databaseverbinding
-        with engine.connect() as connection:
-            connection.execute(text("SELECT 1"))
-
-        print("✅ Database verbonden")
-
-    except Exception as e:
-        print(f"❌ Databasefout: {e}")
-
-    yield
+from backend.modules.projects.router import router as project_router
 
 
 app = FastAPI(
-    title="QontrolIT",
-    version="1.0.0",
-    lifespan=lifespan,
+    title=APP_NAME,
+    version=APP_VERSION,
 )
 
-# Modules
-app.include_router(materials_router)
-app.include_router(projects_router)
-app.include_router(importer_router)
+
+@app.on_event("startup")
+def startup():
+
+    init_databases()
+
+    logger.info("QontrolIT gestart.")
+
+
+app.include_router(project_router)
 
 
 @app.get("/")
 def root():
+
     return {
-        "application": "QontrolIT",
-        "version": "1.0.0",
+        "application": APP_NAME,
+        "version": APP_VERSION,
         "status": "running",
     }
 
 
 @app.get("/health")
 def health():
+
     return {
         "status": "healthy",
     }

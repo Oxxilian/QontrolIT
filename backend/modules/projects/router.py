@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 
-from backend.core.database import get_db
-
-from .repository import ProjectRepository
+from backend.core.apis import success
+from backend.modules.projects.service import ProjectService
 
 router = APIRouter(
     prefix="/projects",
@@ -11,13 +9,27 @@ router = APIRouter(
 )
 
 
-@router.get("/")
-def get_projects(
-    db: Session = Depends(get_db),
-):
+@router.get("/status")
+def status():
 
-    repository = ProjectRepository(db)
+    return success(
+        ProjectService.get_status()
+    )
 
-    projects = repository.get_all()
 
-    return projects
+@router.get("/count")
+def count():
+
+    return success(
+        {
+            "projects": ProjectService.count()
+        }
+    )
+
+
+@router.get("/scan")
+def scan(path: str):
+
+    return success(
+        ProjectService.scan(path)
+    )

@@ -1,30 +1,29 @@
-from sqlalchemy.orm import Session
-
-from .model import Project
-from .schema import ProjectCreate
-
-
-def get_all_projects(db: Session):
-    return (
-        db.query(Project)
-        .order_by(Project.project_number)
-        .all()
-    )
+from backend.modules.projects.analyzers.project_analyzer import ProjectAnalyzer
+from backend.modules.projects.scanners.project_scanner import ProjectScanner
+from backend.modules.projects.schemas import ProjectStatus
 
 
-def get_project_by_id(db: Session, project_id: int):
-    return (
-        db.query(Project)
-        .filter(Project.id == project_id)
-        .first()
-    )
+class ProjectService:
+    """
+    Businesslogica van de Projects module.
+    """
 
+    @staticmethod
+    def get_status():
 
-def create_project(db: Session, project: ProjectCreate):
-    db_project = Project(**project.model_dump())
+        return ProjectStatus(
+            module="Projects",
+            status="ready",
+        )
 
-    db.add(db_project)
-    db.commit()
-    db.refresh(db_project)
+    @staticmethod
+    def count():
 
-    return db_project
+        return 0
+
+    @staticmethod
+    def scan(project_path: str):
+
+        project = ProjectScanner.scan(project_path)
+
+        return ProjectAnalyzer.analyze(project)
