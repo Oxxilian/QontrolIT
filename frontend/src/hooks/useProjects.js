@@ -1,36 +1,60 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { getProjects } from "../services/projectService";
 
 export default function useProjects() {
+
     const [projects, setProjects] = useState([]);
+
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState(null);
 
-    const loadProjects = async () => {
+    const loadProjects = useCallback(async () => {
+
         try {
+
             setLoading(true);
 
-            const data = await getProjects();
+            const projects =
+                await getProjects();
 
-            setProjects(data);
+            setProjects(projects);
+
             setError(null);
-        } catch (err) {
-            console.error(err);
-            setError("Projecten konden niet worden geladen.");
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    useEffect(() => {
-        loadProjects();
+        } catch (error) {
+
+            console.error(error);
+
+            setError(
+                "Projecten konden niet worden geladen."
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
     }, []);
 
+    useEffect(() => {
+
+        loadProjects();
+
+    }, [loadProjects]);
+
     return {
+
         projects,
+
         loading,
+
         error,
+
         reload: loadProjects,
+
     };
+
 }

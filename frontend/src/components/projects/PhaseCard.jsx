@@ -1,0 +1,99 @@
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Stack,
+    Typography,
+} from "@mui/material";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import StatusDot from "./StatusDot";
+import ProcessSection from "./ProcessSection";
+
+export default function PhaseCard({ phase }) {
+
+    return (
+
+        <Accordion
+            disableGutters
+            elevation={0}
+            sx={{
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 2,
+                overflow: "hidden",
+                "&:before": {
+                    display: "none",
+                },
+            }}
+        >
+
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                    px: 3,
+                    py: 1,
+                }}
+            >
+
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    alignItems="center"
+                    width="100%"
+                >
+
+                    <StatusDot
+                        status={phase.status}
+                    />
+
+                    <Box flexGrow={1}>
+
+                        <Typography
+                            variant="h6"
+                            fontWeight={700}
+                        >
+                            {phase.code}
+                        </Typography>
+
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {phase.name}
+                        </Typography>
+
+                    </Box>
+
+                </Stack>
+
+            </AccordionSummary>
+
+            <AccordionDetails
+                sx={{
+                    px: 3,
+                    pb: 3,
+                }}
+            >
+
+                <Stack spacing={3}>
+
+                    {phase.processes.map((process) => (
+
+                        <ProcessSection
+                            key={process.title}
+                            process={process}
+                        />
+
+                    ))}
+
+                </Stack>
+
+            </AccordionDetails>
+
+        </Accordion>
+
+    );
+
+}

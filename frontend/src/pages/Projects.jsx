@@ -3,20 +3,22 @@ import { useState } from "react";
 import {
     Alert,
     Box,
+    Button,
     Card,
     CardContent,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Button,
     Divider,
     Typography,
 } from "@mui/material";
 
 import useProjects from "../hooks/useProjects";
 
-import { deleteProject } from "../services/projectService";
+import {
+    deleteProject,
+} from "../services/projectService";
 
 import ProjectTable from "../components/projects/ProjectTable";
 import ProjectToolbar from "../components/projects/ProjectToolbar";
@@ -24,10 +26,18 @@ import ImportProjectDialog from "../components/projects/ImportProjectDialog";
 
 export default function Projects() {
 
-    const [openImport, setOpenImport] = useState(false);
+    const [openImport, setOpenImport] =
+        useState(false);
 
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [selectedProject, setSelectedProject] = useState(null);
+    const [
+        deleteDialogOpen,
+        setDeleteDialogOpen,
+    ] = useState(false);
+
+    const [
+        selectedProject,
+        setSelectedProject,
+    ] = useState(null);
 
     const {
         projects,
@@ -37,27 +47,49 @@ export default function Projects() {
     } = useProjects();
 
     function handleImported() {
+
         reload();
+
     }
 
-    function handleDeleteClick(project) {
+    function handleDeleteClick(
+        project,
+    ) {
+
         setSelectedProject(project);
+
         setDeleteDialogOpen(true);
+
     }
 
     async function handleDeleteConfirm() {
 
-        if (!selectedProject) return;
+        if (!selectedProject) {
+            return;
+        }
 
-        await deleteProject(selectedProject.id);
+        try {
 
-        setDeleteDialogOpen(false);
-        setSelectedProject(null);
+            await deleteProject(
+                selectedProject.project_number
+            );
 
-        reload();
+            setDeleteDialogOpen(false);
+
+            setSelectedProject(null);
+
+            reload();
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
     }
 
     return (
+
         <Box>
 
             <Typography
@@ -75,24 +107,30 @@ export default function Projects() {
             <Card
                 sx={{
                     borderRadius: 3,
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+                    boxShadow:
+                        "0 8px 24px rgba(0,0,0,0.08)",
                 }}
             >
+
                 <CardContent sx={{ p: 4 }}>
 
                     <ProjectToolbar
-                        onImport={() => setOpenImport(true)}
+                        onImport={() =>
+                            setOpenImport(true)
+                        }
                     />
 
                     <Divider sx={{ mb: 4 }} />
 
                     {error && (
+
                         <Alert
                             severity="error"
                             sx={{ mb: 3 }}
                         >
                             {error}
                         </Alert>
+
                     )}
 
                     <ProjectTable
@@ -107,21 +145,26 @@ export default function Projects() {
 
             <ImportProjectDialog
                 open={openImport}
-                onClose={() => setOpenImport(false)}
+                onClose={() =>
+                    setOpenImport(false)
+                }
                 onImported={handleImported}
             />
 
             <Dialog
                 open={deleteDialogOpen}
-                onClose={() => setDeleteDialogOpen(false)}
+                onClose={() =>
+                    setDeleteDialogOpen(false)
+                }
             >
+
                 <DialogTitle>
                     Project verwijderen
                 </DialogTitle>
 
                 <DialogContent>
 
-                    Weet je zeker dat je project
+                    Weet je zeker dat project
 
                     <strong>
                         {" "}
@@ -135,7 +178,9 @@ export default function Projects() {
                 <DialogActions>
 
                     <Button
-                        onClick={() => setDeleteDialogOpen(false)}
+                        onClick={() =>
+                            setDeleteDialogOpen(false)
+                        }
                     >
                         Annuleren
                     </Button>
@@ -143,7 +188,9 @@ export default function Projects() {
                     <Button
                         color="error"
                         variant="contained"
-                        onClick={handleDeleteConfirm}
+                        onClick={
+                            handleDeleteConfirm
+                        }
                     >
                         Verwijderen
                     </Button>
@@ -153,5 +200,7 @@ export default function Projects() {
             </Dialog>
 
         </Box>
+
     );
+
 }

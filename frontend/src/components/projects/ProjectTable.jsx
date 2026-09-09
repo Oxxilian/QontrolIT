@@ -69,17 +69,27 @@ export default function ProjectTable({
     const navigate = useNavigate();
 
     return (
+
         <div style={{ height: 500 }}>
 
             <DataGrid
                 rows={projects}
                 columns={columns(onDelete)}
                 loading={loading}
-                getRowId={(row) => row.id}
+                getRowId={(row) => row.project_number}
                 disableRowSelectionOnClick
-                pageSizeOptions={[10, 25, 50, 100]}
+                pageSizeOptions={[
+                    10,
+                    25,
+                    50,
+                    100,
+                ]}
                 onRowClick={(params) => {
-                    navigate(`/projects/${params.row.id}`);
+
+                    navigate(
+                        `/projects/${params.row.project_number}`
+                    );
+
                 }}
                 initialState={{
                     pagination: {
@@ -92,6 +102,7 @@ export default function ProjectTable({
             />
 
         </div>
+
     );
 
 }

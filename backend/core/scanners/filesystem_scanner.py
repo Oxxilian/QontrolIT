@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from backend.core.services import FileSystem
 
 
@@ -12,9 +14,14 @@ class FileSystemScanner:
     @staticmethod
     def scan(path: str) -> dict:
 
+        root = Path(path)
+
         return {
             "exists": FileSystem.exists(path),
             "name": FileSystem.name(path),
+            "path": root,
             "folders": FileSystem.folders(path),
             "files": FileSystem.files(path),
+            "folder_count": len(FileSystem.folders(path)),
+            "file_count": len(FileSystem.files(path)),
         }

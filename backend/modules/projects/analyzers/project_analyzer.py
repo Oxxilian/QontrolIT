@@ -1,35 +1,45 @@
-import re
-
-
 class ProjectAnalyzer:
     """
-    Analyseert de projectstructuur.
-
-    Ontvangt de ruwe data van de scanner
-    en bepaalt welke mappen fases zijn.
+    Analyseert een project en bepaalt
+    de status van iedere fase.
     """
 
-    PHASE_PATTERN = re.compile(r"^P\d+\.\d+$")
-
     @classmethod
-    def analyze(cls, project: dict) -> dict:
+    def analyze(
+        cls,
+        project: dict,
+    ) -> dict:
 
-        phases = []
+        for phase in project["phases"]:
 
-        for folder in project["folders"]:
+            phase["warnings"] = cls.get_warnings(phase)
+            phase["ready"] = len(
+                phase["warnings"]
+            ) == 0
 
-            if cls.PHASE_PATTERN.match(folder["name"]):
+        return project
 
-                phases.append(
-                    {
-                        "phase": folder["name"],
-                        "path": folder["path"],
-                    }
-                )
+    @staticmethod
+    def get_warnings(
+        phase: dict,
+    ) -> list[str]:
 
-        return {
-            "exists": project["exists"],
-            "project": project["project"],
-            "phase_count": len(phases),
-            "phases": phases,
-        }
+        warnings = []
+
+        production = phase["production"]
+
+        if not production["production_drawings"]["enabled"]:
+            warnings.append(
+                "Productietekeningen ontbreken."
+            )
+
+        if (
+            not production["plate_cutting"]["enabled"]
+            and not production["profile_cutting"]["enabled"]
+            and not production["sawing"]["enabled"]
+        ):
+            warnings.append(
+                "Geen productie gevonden."
+            )
+
+        return warnings

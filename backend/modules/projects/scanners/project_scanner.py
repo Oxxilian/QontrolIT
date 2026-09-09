@@ -1,43 +1,60 @@
-from pathlib import Path
+from backend.core.scanners import (
+    FileSystemScanner,
+    ScannerContext,
+    ScannerPipeline,
+)
 
-from backend.core.services import FileSystem
+from backend.modules.projects.builders import ProjectBuilder
+from backend.modules.projects.scanners import PROJECT_SCANNERS
 
 
 class ProjectScanner:
     """
-    Leest uitsluitend de projectstructuur.
+    Centrale scanner van de Projects-module.
 
-    Geen interpretatie.
-    Geen bedrijfslogica.
+    Deze klasse:
+
+    - controleert of het project bestaat;
+    - maakt de ScannerContext;
+    - voert alle scanners uit;
+    - bouwt het uiteindelijke Project-object.
     """
 
     @staticmethod
-    def scan(project_path: str) -> dict:
-        project = Path(project_path)
+    def scan(
+        project_path: str,
+    ) -> dict:
 
-        if not FileSystem.exists(project_path):
-            return {
-                "exists": False,
-                "project": None,
-                "folders": [],
-                "files": [],
-            }
+        project = FileSystemScanner.scan(
+            project_path,
+        )
 
-        folders = []
-        files = []
+        if not project.get("exists"):
 
-        for item in project.iterdir():
-            if item.is_dir():
-                folders.append(item.name)
-            elif item.is_file():
-                files.append(item.name)
+            return project
 
-        folders.sort()
-        files.sort()
+        context = ScannerContext(
+            project_path,
+        )
 
-        return {
-            "exists": True,
-            "project": project.name,
-            "folders": folders,
-            "files": files,
-        }
+        context.project = project
+
+        pipeline = ScannerPipeline()
+
+        for scanner in PROJECT_SCANNERS:
+
+            pipeline.add(
+                scanner(),
+            )
+
+        pipeline.run(
+            context,
+        )
+
+        project = ProjectBuilder.build(
+            context,
+        )
+
+        project["exists"] = True
+
+        return project

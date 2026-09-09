@@ -2,11 +2,9 @@ import { useState } from "react";
 
 import {
     Alert,
-    Box,
     Button,
     Card,
     CardContent,
-    Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -17,24 +15,24 @@ import {
     Typography,
 } from "@mui/material";
 
-import {
-    FolderOpen,
-    CheckCircle2,
-    TriangleAlert,
-} from "lucide-react";
+import { FolderOpen } from "lucide-react";
 
 import {
     importProject,
     scanProject,
 } from "../../services/projectService";
 
+import PhaseCard from "./PhaseCard";
+
 export default function ImportProjectDialog({
     open,
     onClose,
     onImported,
 }) {
+
     const [projectPath, setProjectPath] = useState("");
-    const [scanResult, setScanResult] = useState(null);
+    const [project, setProject] = useState(null);
+
     const [loading, setLoading] = useState(false);
 
     const [message, setMessage] = useState("");
@@ -42,26 +40,21 @@ export default function ImportProjectDialog({
 
     async function browseFolder() {
 
-        console.log("Electron API:", window.electron);
-
         if (!window.electron) {
 
             setSeverity("error");
             setMessage("Electron API niet beschikbaar.");
-
             return;
 
         }
 
         setMessage("");
-        setScanResult(null);
+        setProject(null);
 
         try {
 
             const folder =
                 await window.electron.selectProjectFolder();
-
-            console.log("Geselecteerde map:", folder);
 
             if (!folder) {
                 return;
@@ -74,13 +67,9 @@ export default function ImportProjectDialog({
             const result =
                 await scanProject(folder);
 
-            console.log(result);
-
-            setScanResult(result);
+            setProject(result);
 
         } catch (error) {
-
-            console.error(error);
 
             setSeverity("error");
 
@@ -110,21 +99,17 @@ export default function ImportProjectDialog({
 
             setLoading(true);
 
-            const result =
-                await importProject(projectPath);
-
-            setSeverity("success");
-            setMessage(result.database);
+            await importProject(projectPath);
 
             if (onImported) {
-    await onImported();
-}
+                await onImported();
+            }
 
-setProjectPath("");
-setScanResult(null);
-setMessage("");
+            setProject(null);
+            setProjectPath("");
+            setMessage("");
 
-onClose();
+            onClose();
 
         } catch (error) {
 
@@ -155,7 +140,7 @@ onClose();
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth="md"
+            maxWidth="lg"
             fullWidth
         >
 
@@ -167,10 +152,7 @@ onClose();
 
                 <Card
                     variant="outlined"
-                    sx={{
-                        mt: 2,
-                        borderRadius: 2,
-                    }}
+                    sx={{ mt: 2 }}
                 >
 
                     <CardContent>
@@ -215,24 +197,26 @@ onClose();
 
                         )}
 
-                        {scanResult && (
+                        {project && (
 
-                            <Box mt={4}>
+                            <>
 
-                                <Divider sx={{ mb: 3 }} />
+                                <Divider sx={{ my: 4 }} />
 
                                 <Typography
                                     variant="h6"
-                                    gutterBottom
                                 >
-                                    Projectgegevens
+                                    Project
                                 </Typography>
 
-                                <Stack spacing={2}>
+                                <Stack
+                                    spacing={2}
+                                    sx={{ mt: 2 }}
+                                >
 
                                     <TextField
                                         label="Projectnummer"
-                                        value={scanResult.project_number}
+                                        value={project.project_number}
                                         slotProps={{
                                             input: {
                                                 readOnly: true,
@@ -242,7 +226,7 @@ onClose();
 
                                     <TextField
                                         label="Projectnaam"
-                                        value={scanResult.project_name}
+                                        value={project.project_name}
                                         slotProps={{
                                             input: {
                                                 readOnly: true,
@@ -252,7 +236,7 @@ onClose();
 
                                     <TextField
                                         label="Opdrachtgever"
-                                        value={scanResult.customer}
+                                        value={project.customer}
                                         slotProps={{
                                             input: {
                                                 readOnly: true,
@@ -269,71 +253,23 @@ onClose();
                                         mb: 2,
                                     }}
                                 >
-                                    Mappen
+                                    Fases ({project.phases.length})
                                 </Typography>
 
-                                <Stack
-                                    direction="row"
-                                    spacing={1}
-                                    useFlexGap
-                                    flexWrap="wrap"
-                                >
+                                <Stack spacing={2}>
 
-                                    {scanResult.found.map(
-                                        (folder) => (
-                                            <Chip
-                                                key={folder}
-                                                color="success"
-                                                icon={
-                                                    <CheckCircle2 size={16} />
-                                                }
-                                                label={folder}
-                                            />
-                                        )
-                                    )}
+                                    {project.phases.map((phase) => (
 
-                                    {scanResult.missing.map(
-                                        (folder) => (
-                                            <Chip
-                                                key={folder}
-                                                color="warning"
-                                                icon={
-                                                    <TriangleAlert size={16} />
-                                                }
-                                                label={folder}
-                                            />
-                                        )
-                                    )}
+                                        <PhaseCard
+                                            key={phase.code}
+                                            phase={phase}
+                                        />
 
-                                </Stack>
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        mt: 4,
-                                        mb: 2,
-                                    }}
-                                >
-                                    Samenvatting
-                                </Typography>
-
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                >
-
-                                    <Chip
-                                        color="primary"
-                                        label={`${scanResult.files.length} bestanden`}
-                                    />
-
-                                    <Chip
-                                        color="info"
-                                        label={`${scanResult.folders.length} mappen`}
-                                    />
+                                    ))}
 
                                 </Stack>
 
-                            </Box>
+                            </>
 
                         )}
 
@@ -345,22 +281,17 @@ onClose();
 
             <DialogActions>
 
-                <Button
-                    onClick={onClose}
-                >
+                <Button onClick={onClose}>
                     Annuleren
                 </Button>
 
                 <Button
                     variant="contained"
-                    onClick={handleImport}
                     disabled={
                         loading ||
-                        !scanResult
+                        !project
                     }
-                    sx={{
-                        backgroundColor: "#5E8F3C",
-                    }}
+                    onClick={handleImport}
                 >
                     Importeren
                 </Button>
