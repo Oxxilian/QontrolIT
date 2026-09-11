@@ -14,10 +14,16 @@ import ControlMap from "./pages/ControlMap";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
+import WorkflowPrototypePage from "./pages/WorkflowPrototypePage";
+
 export default function App() {
+
     return (
+
         <Layout>
+
             <Routes>
+
                 <Route path="/" element={<Dashboard />} />
 
                 <Route path="/projects" element={<Projects />} />
@@ -31,7 +37,17 @@ export default function App() {
                 <Route path="/controlmap" element={<ControlMap />} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/settings" element={<Settings />} />
+
+                {/* Prototype */}
+                <Route
+                    path="/prototype"
+                    element={<WorkflowPrototypePage />}
+                />
+
             </Routes>
+
         </Layout>
+
     );
+
 }

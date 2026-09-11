@@ -1,12 +1,14 @@
 import {
     Box,
-    Stack,
     Typography,
 } from "@mui/material";
 
 import StatusDot from "./StatusDot";
 
-export default function ProjectHeader({ project }) {
+export default function ProjectHeader({
+    project,
+    selectedPhase,
+}) {
 
     return (
 
@@ -16,14 +18,14 @@ export default function ProjectHeader({ project }) {
             }}
         >
 
-   <Box
-    sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-    }}
->
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
 
                 <Box>
 
@@ -51,9 +53,50 @@ export default function ProjectHeader({ project }) {
 
                 </Box>
 
-                <StatusDot
-                    status={project.status}
-                />
+                {selectedPhase && (
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 3,
+                            mr: 2,
+                        }}
+                    >
+
+                        <Box
+                            sx={{
+                                textAlign: "right",
+                            }}
+                        >
+
+                            <Typography
+                                sx={{
+                                    fontSize: 18,
+                                    fontWeight: 700,
+                                }}
+                            >
+                                {selectedPhase.phase_number}
+                            </Typography>
+
+                            <Typography
+                                color="text.secondary"
+                                sx={{
+                                    mt: 0.5,
+                                }}
+                            >
+                                {selectedPhase.name}
+                            </Typography>
+
+                        </Box>
+
+                        <StatusDot
+                            status={selectedPhase.status}
+                        />
+
+                    </Box>
+
+                )}
 
             </Box>
 

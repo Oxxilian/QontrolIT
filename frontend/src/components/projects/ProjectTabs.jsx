@@ -7,6 +7,7 @@ import {
 export default function ProjectTabs({
     tab,
     setTab,
+    selectedPhase,
 }) {
 
     return (
@@ -25,14 +26,15 @@ export default function ProjectTabs({
                 scrollButtons="auto"
             >
 
-                <Tab label="Algemeen" />
-                <Tab label="Workflow" />
-                <Tab label="Documenten" />
-                <Tab label="Productie" />
-                <Tab label="Kwaliteit" />
-                <Tab label="Conservering" />
-                <Tab label="Rapportages" />
-                <Tab label="Logboek" />
+                <Tab label="Fase" />
+
+                {selectedPhase && (
+                    <>
+                        <Tab label="Workflow" />
+                        <Tab label="Tekeningen" />
+                        <Tab label="Bestellingen" />
+                    </>
+                )}
 
             </Tabs>
 
