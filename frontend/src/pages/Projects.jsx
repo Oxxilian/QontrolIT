@@ -96,7 +96,7 @@ export default function Projects() {
                 variant="h4"
                 sx={{
                     fontWeight: 700,
-                    color: "#2F343A",
+                    color: "#FFFFFF",
                     mb: 4,
                     textAlign: "center",
                 }}
@@ -107,12 +107,19 @@ export default function Projects() {
             <Card
                 sx={{
                     borderRadius: 3,
-                    boxShadow:
-                        "0 8px 24px rgba(0,0,0,0.08)",
+                    backgroundColor: "#363C42",
+                    color: "#FFFFFF",
+                    border: "1px solid #596168",
+                    boxShadow: "none",
                 }}
             >
 
-                <CardContent sx={{ p: 4 }}>
+                <CardContent
+                    sx={{
+                        p: 4,
+                        color: "#FFFFFF",
+                    }}
+                >
 
                     <ProjectToolbar
                         onImport={() =>
@@ -120,7 +127,12 @@ export default function Projects() {
                         }
                     />
 
-                    <Divider sx={{ mb: 4 }} />
+                    <Divider
+                        sx={{
+                            mb: 4,
+                            borderColor: "#596168",
+                        }}
+                    />
 
                     {error && (
 

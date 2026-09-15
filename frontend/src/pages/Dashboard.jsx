@@ -5,7 +5,7 @@ export default function Dashboard() {
                 style={{
                     marginTop: 0,
                     marginBottom: "10px",
-                    color: "#2F343A",
+                    color: "#FFFFFF",
                     fontSize: "30px",
                 }}
             >
@@ -14,7 +14,7 @@ export default function Dashboard() {
 
             <p
                 style={{
-                    color: "#666",
+                    color: "#C7CCD1",
                     marginBottom: "30px",
                 }}
             >
@@ -23,10 +23,12 @@ export default function Dashboard() {
 
             <div
                 style={{
-                    background: "#FFFFFF",
+                    background: "#363C42",
+                    color: "#FFFFFF",
                     borderRadius: "10px",
                     padding: "25px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    border: "1px solid #596168",
+                    boxShadow: "none",
                 }}
             >
                 Dashboard wordt opgebouwd...

@@ -32,20 +32,26 @@ export default function ProjectHeader({
                     <Typography
                         variant="h4"
                         fontWeight={700}
+                        sx={{
+                            color: "#FFFFFF",
+                        }}
                     >
                         {project.project_number}
                     </Typography>
 
                     <Typography
                         variant="h5"
+                        sx={{
+                            color: "#FFFFFF",
+                        }}
                     >
                         {project.project_name}
                     </Typography>
 
                     <Typography
-                        color="text.secondary"
                         sx={{
                             mt: 0.5,
+                            color: "#C7CCD1",
                         }}
                     >
                         {project.customer}
@@ -74,15 +80,16 @@ export default function ProjectHeader({
                                 sx={{
                                     fontSize: 18,
                                     fontWeight: 700,
+                                    color: "#FFFFFF",
                                 }}
                             >
                                 {selectedPhase.phase_number}
                             </Typography>
 
                             <Typography
-                                color="text.secondary"
                                 sx={{
                                     mt: 0.5,
+                                    color: "#C7CCD1",
                                 }}
                             >
                                 {selectedPhase.name}

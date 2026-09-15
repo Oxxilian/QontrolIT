@@ -16,6 +16,9 @@ export default function ProjectTabs({
             sx={{
                 mb: 3,
                 borderRadius: 3,
+                backgroundColor: "#363C42",
+                border: "1px solid #596168",
+                boxShadow: "none",
             }}
         >
 
@@ -24,6 +27,25 @@ export default function ProjectTabs({
                 onChange={(_, value) => setTab(value)}
                 variant="scrollable"
                 scrollButtons="auto"
+                sx={{
+                    "& .MuiTab-root": {
+                        color: "#C7CCD1",
+                        fontWeight: 600,
+                    },
+
+                    "& .MuiTab-root.Mui-selected": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiTabs-indicator": {
+                        backgroundColor: "#5E8F3C",
+                        height: 3,
+                    },
+
+                    "& .MuiTabs-scrollButtons": {
+                        color: "#FFFFFF",
+                    },
+                }}
             >
 
                 <Tab label="Fase" />

@@ -99,6 +99,77 @@ export default function ProjectTable({
                         },
                     },
                 }}
+                sx={{
+                    "--DataGrid-containerBackground": "#252A2F",
+                    "--DataGrid-rowBorderColor": "#596168",
+
+                    backgroundColor: "#363C42",
+                    color: "#FFFFFF",
+                    border: "1px solid #596168",
+
+                    "& .MuiDataGrid-columnHeaders": {
+                        backgroundColor: "#252A2F !important",
+                        color: "#FFFFFF",
+                        borderBottom: "1px solid #596168",
+                    },
+
+                    "& .MuiDataGrid-columnHeader": {
+                        backgroundColor: "#252A2F !important",
+                    },
+
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                        color: "#FFFFFF",
+                        fontWeight: 700,
+                    },
+
+                    "& .MuiDataGrid-cell": {
+                        color: "#FFFFFF",
+                        borderBottom:
+                            "1px solid #596168",
+                    },
+
+                    "& .MuiDataGrid-row": {
+                        backgroundColor: "#363C42",
+                    },
+
+                    "& .MuiDataGrid-row:hover": {
+                        backgroundColor: "#3D444A",
+                    },
+
+                    "& .MuiDataGrid-footerContainer": {
+                        backgroundColor: "#252A2F",
+                        color: "#FFFFFF",
+                        borderTop: "1px solid #596168",
+                    },
+
+                    "& .MuiTablePagination-root": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiTablePagination-selectIcon": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiDataGrid-iconButtonContainer": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiDataGrid-sortIcon": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiDataGrid-menuIconButton": {
+                        color: "#FFFFFF",
+                    },
+
+                    "& .MuiCheckbox-root": {
+                        color: "#5E8F3C",
+                    },
+
+                    "& .MuiCheckbox-root.Mui-checked": {
+                        color: "#5E8F3C",
+                    },
+                }}
             />
 
         </div>

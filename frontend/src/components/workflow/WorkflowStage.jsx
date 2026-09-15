@@ -161,6 +161,7 @@ export default function WorkflowStage({
 
             return updatedProcesses;
         });
+
     };
 
     const handleConservationCompleteClick = () => {
@@ -178,6 +179,7 @@ export default function WorkflowStage({
 
         setProcesses(updatedProcesses);
         onProcessesChange(updatedProcesses);
+
     };
 
     return (
@@ -186,7 +188,7 @@ export default function WorkflowStage({
             elevation={4}
             sx={{
                 borderRadius: 4,
-                backgroundColor: "#40444B",
+                backgroundColor: "#2F343A",
                 color: "#FFFFFF",
                 overflow: "hidden",
             }}
@@ -430,7 +432,7 @@ export default function WorkflowStage({
 
                             textAlign: "center",
 
-                            backgroundColor: "#40444B",
+                            backgroundColor: "#363C42",
                         }}
                     >
 

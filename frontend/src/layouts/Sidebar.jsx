@@ -4,9 +4,6 @@ import {
     Boxes,
     Truck,
     ShieldCheck,
-    Building2,
-    ClipboardCheck,
-    BarChart3,
     Settings,
 } from "lucide-react";
 
@@ -18,9 +15,6 @@ const menuItems = [
     { icon: Boxes, text: "Materialen", path: "/materials" },
     { icon: Truck, text: "Inkomende goederen", path: "/incoming-goods" },
     { icon: ShieldCheck, text: "Conservering", path: "/conservation" },
-    { icon: Building2, text: "Leveranciers", path: "/suppliers" },
-    { icon: ClipboardCheck, text: "Controlemap", path: "/controlmap" },
-    { icon: BarChart3, text: "Rapportages", path: "/reports" },
     { icon: Settings, text: "Instellingen", path: "/settings" },
 ];
 
@@ -61,14 +55,25 @@ export default function Sidebar() {
                                 transition: "background-color .2s ease",
                             })}
                             onMouseEnter={(e) => {
-                                if (!e.currentTarget.classList.contains("active")) {
-                                    e.currentTarget.style.backgroundColor = "#5E8F3C";
+                                if (
+                                    !e.currentTarget.classList.contains(
+                                        "active"
+                                    )
+                                ) {
+                                    e.currentTarget.style.backgroundColor =
+                                        "#5E8F3C";
                                 }
                             }}
                             onMouseLeave={(e) => {
-                                if (!e.currentTarget.classList.contains("active")) {
+                                if (
+                                    !e.currentTarget.classList.contains(
+                                        "active"
+                                    )
+                                ) {
                                     e.currentTarget.style.backgroundColor =
-                                        index % 2 === 0 ? "#363C43" : "#2F343A";
+                                        index % 2 === 0
+                                            ? "#363C43"
+                                            : "#2F343A";
                                 }
                             }}
                         >
@@ -115,7 +120,7 @@ export default function Sidebar() {
 
                 <br />
 
-                Versie 1.0.0
+                Made by Remco Bruins __ Versie 1.0.0
             </div>
         </aside>
     );

@@ -14,6 +14,23 @@ import ProcessSection from "./ProcessSection";
 
 export default function PhaseCard({ phase }) {
 
+    const processes = [
+        {
+            title: "Productie",
+            items: Object.values(phase.production || {}).map((item) => ({
+                name: item.label,
+                status: item.status,
+            })),
+        },
+        {
+            title: "Conservering",
+            items: Object.values(phase.conservation || {}).map((item) => ({
+                name: item.label,
+                status: item.status,
+            })),
+        },
+    ];
+
     return (
 
         <Accordion
@@ -79,7 +96,7 @@ export default function PhaseCard({ phase }) {
 
                 <Stack spacing={3}>
 
-                    {phase.processes.map((process) => (
+                    {processes.map((process) => (
 
                         <ProcessSection
                             key={process.title}

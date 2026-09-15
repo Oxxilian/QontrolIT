@@ -56,7 +56,10 @@ export default function ProjectToolbar({ onImport }) {
                     sx={{
                         mt: 1.5,
                         fontSize: "0.80rem",
-                        color: "#666",
+                        color: "#C7CCD1",
+                        "&:hover": {
+                            color: "#FFFFFF",
+                        },
                     }}
                 >
                     Handmatig project aanmaken

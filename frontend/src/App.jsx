@@ -16,14 +16,13 @@ import Settings from "./pages/Settings";
 
 import WorkflowPrototypePage from "./pages/WorkflowPrototypePage";
 
+import MaterialsPrototype from "./components/Prototype/MaterialsPrototype";
+import LeveranciersPrototype from "./components/Prototype/LeveranciersPrototype";
+
 export default function App() {
-
     return (
-
         <Layout>
-
             <Routes>
-
                 <Route path="/" element={<Dashboard />} />
 
                 <Route path="/projects" element={<Projects />} />
@@ -38,16 +37,23 @@ export default function App() {
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/settings" element={<Settings />} />
 
-                {/* Prototype */}
+                {/* Prototypes */}
+
                 <Route
-                    path="/prototype"
+                    path="/Prototype"
                     element={<WorkflowPrototypePage />}
                 />
 
+                <Route
+                    path="/prototype/materials"
+                    element={<MaterialsPrototype />}
+                />
+
+                <Route
+                    path="/prototype/suppliers"
+                    element={<LeveranciersPrototype />}
+                />
             </Routes>
-
         </Layout>
-
     );
-
 }

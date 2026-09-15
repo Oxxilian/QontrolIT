@@ -50,6 +50,43 @@ export default function ProjectDetail() {
         },
     ];
 
+    function getPhaseStatus(phase) {
+
+        const workflow =
+            phaseWorkflows[phase.phase_number];
+
+        if (!workflow) {
+            return phase.status;
+        }
+
+        const allProcessesReady =
+            workflow.every((processes) =>
+                processes.every(
+                    (process) =>
+                        process.status === "green"
+                )
+            );
+
+        if (allProcessesReady) {
+            return "🟢";
+        }
+
+        const hasActivity =
+            workflow.some((processes) =>
+                processes.some(
+                    (process) =>
+                        process.status === "yellow" ||
+                        process.status === "green"
+                )
+            );
+
+        if (hasActivity) {
+            return "🟡";
+        }
+
+        return "🔴";
+    }
+
     function handlePhaseClick(phase) {
 
         setSelectedPhase(phase);
@@ -57,7 +94,10 @@ export default function ProjectDetail() {
 
     }
 
-    function handleWorkflowChange(phaseNumber, workflow) {
+    function handleWorkflowChange(
+        phaseNumber,
+        workflow
+    ) {
 
         setPhaseWorkflows((currentWorkflows) => ({
             ...currentWorkflows,
@@ -81,6 +121,7 @@ export default function ProjectDetail() {
                             sx={{
                                 fontWeight: 700,
                                 mb: 3,
+                                color: "#FFFFFF",
                             }}
                         >
                             Fasen
@@ -89,6 +130,10 @@ export default function ProjectDetail() {
                         <Card
                             sx={{
                                 borderRadius: 3,
+                                backgroundColor: "#363C42",
+                                color: "#FFFFFF",
+                                border: "1px solid #596168",
+                                boxShadow: "none",
                             }}
                         >
 
@@ -109,12 +154,14 @@ export default function ProjectDetail() {
                                             py: 2,
                                             mb: 1.5,
                                             borderRadius: 2,
-                                            backgroundColor: "#f5f6f8",
+                                            backgroundColor: "#2F343A",
+                                            color: "#FFFFFF",
+                                            border: "1px solid #596168",
                                             cursor: "pointer",
                                             transition: "all .2s ease",
 
                                             "&:hover": {
-                                                backgroundColor: "#e9ecef",
+                                                backgroundColor: "#3D444A",
                                                 transform: "translateX(4px)",
                                             },
                                         }}
@@ -126,13 +173,16 @@ export default function ProjectDetail() {
                                                 sx={{
                                                     fontWeight: 700,
                                                     fontSize: 17,
+                                                    color: "#FFFFFF",
                                                 }}
                                             >
                                                 {phase.phase_number}
                                             </Typography>
 
                                             <Typography
-                                                color="text.secondary"
+                                                sx={{
+                                                    color: "#C7CCD1",
+                                                }}
                                             >
                                                 {phase.name}
                                             </Typography>
@@ -144,7 +194,7 @@ export default function ProjectDetail() {
                                                 fontSize: 24,
                                             }}
                                         >
-                                            {phase.status}
+                                            {getPhaseStatus(phase)}
                                         </Typography>
 
                                     </Box>
@@ -194,6 +244,7 @@ export default function ProjectDetail() {
                             sx={{
                                 fontWeight: 700,
                                 mb: 3,
+                                color: "#FFFFFF",
                             }}
                         >
                             Tekeningen
@@ -202,12 +253,20 @@ export default function ProjectDetail() {
                         <Card
                             sx={{
                                 borderRadius: 3,
+                                backgroundColor: "#363C42",
+                                color: "#FFFFFF",
+                                border: "1px solid #596168",
+                                boxShadow: "none",
                             }}
                         >
 
                             <CardContent sx={{ p: 4 }}>
 
-                                <Typography>
+                                <Typography
+                                    sx={{
+                                        color: "#FFFFFF",
+                                    }}
+                                >
                                     Tekeningen van de geselecteerde fase
                                 </Typography>
 
@@ -230,6 +289,7 @@ export default function ProjectDetail() {
                             sx={{
                                 fontWeight: 700,
                                 mb: 3,
+                                color: "#FFFFFF",
                             }}
                         >
                             Bestellingen
@@ -238,12 +298,20 @@ export default function ProjectDetail() {
                         <Card
                             sx={{
                                 borderRadius: 3,
+                                backgroundColor: "#363C42",
+                                color: "#FFFFFF",
+                                border: "1px solid #596168",
+                                boxShadow: "none",
                             }}
                         >
 
                             <CardContent sx={{ p: 4 }}>
 
-                                <Typography>
+                                <Typography
+                                    sx={{
+                                        color: "#FFFFFF",
+                                    }}
+                                >
                                     Bestellingen van de geselecteerde fase
                                 </Typography>
 

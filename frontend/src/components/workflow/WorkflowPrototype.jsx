@@ -32,7 +32,15 @@ export default function WorkflowPrototype({
             workflowData.map((phase) => phase.processes)
         );
 
-    }, [selectedPhase, workflow]);
+    }, [selectedPhase]);
+
+    useEffect(() => {
+
+        if (workflow) {
+            setPhaseProcesses(workflow);
+        }
+
+    }, [workflow]);
 
     const getPhaseStatus = (phase, index) => {
 
@@ -109,6 +117,7 @@ export default function WorkflowPrototype({
 
             return updatedPhaseProcesses;
         });
+
     };
 
     return (

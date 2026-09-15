@@ -10,6 +10,26 @@ router = APIRouter(
 )
 
 
+@router.get("")
+def get_projects():
+
+    projects = ProjectService().get_all()
+
+    return success(
+        [
+            {
+                "id": project.id,
+                "project_number": project.project_number,
+                "project_name": project.project_name,
+                "customer": project.customer,
+                "path": project.path,
+                "active": project.active,
+            }
+            for project in projects
+        ]
+    )
+
+
 @router.get("/status")
 def status():
 
@@ -28,9 +48,21 @@ def count():
     )
 
 
-@router.get("/scan")
-def scan(path: str):
+@router.post("/scan")
+def scan(project_path: str):
 
     return success(
-        ProjectService.scan(path)
+        ProjectService().scan(
+            project_path
+        )
+    )
+
+
+@router.post("/import")
+def import_project(project_path: str):
+
+    return success(
+        ProjectService().import_project(
+            project_path
+        )
     )
