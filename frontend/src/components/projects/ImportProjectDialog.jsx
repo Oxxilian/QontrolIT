@@ -258,10 +258,10 @@ export default function ImportProjectDialog({
 
                                 <Stack spacing={2}>
 
-                                    {project.phases.map((phase) => (
+                                    {project.phases.map((phase, index) => (
 
                                         <PhaseCard
-                                            key={phase.code}
+                                            key={`${phase.code}-${index}`}
                                             phase={phase}
                                         />
 

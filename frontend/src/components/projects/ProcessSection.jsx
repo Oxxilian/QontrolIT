@@ -40,8 +40,10 @@ export default function ProcessSection({ process }) {
                     <Stack
                         key={item.name}
                         direction="row"
-                        alignItems="center"
                         spacing={2}
+                        sx={{
+                            alignItems: "center",
+                        }}
                     >
 
                         <StatusDot

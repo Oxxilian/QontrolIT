@@ -58,15 +58,21 @@ export default function PhaseCard({ phase }) {
                 <Stack
                     direction="row"
                     spacing={2}
-                    alignItems="center"
-                    width="100%"
+                    sx={{
+                        alignItems: "center",
+                        width: "100%",
+                    }}
                 >
 
                     <StatusDot
                         status={phase.status}
                     />
 
-                    <Box flexGrow={1}>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                        }}
+                    >
 
                         <Typography
                             variant="h6"
