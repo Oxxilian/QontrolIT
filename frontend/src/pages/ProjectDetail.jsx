@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import {
     Box,
@@ -12,7 +13,13 @@ import ProjectTabs from "../components/projects/ProjectTabs";
 
 import WorkflowTab from "../components/workflow/WorkflowTab";
 
+import {
+    getProject,
+} from "../services/projectService";
+
 export default function ProjectDetail() {
+
+    const { id: projectNumber } = useParams();
 
     const [tab, setTab] = useState(0);
 
@@ -20,35 +27,52 @@ export default function ProjectDetail() {
 
     const [phaseWorkflows, setPhaseWorkflows] = useState({});
 
-    const project = {
-        project_number: "240015",
-        project_name: "Nieuwbouw Distributiecentrum Tilburg",
-        customer: "Heijmans",
-        status: "🟡",
-    };
+    const [project, setProject] = useState(null);
 
-    const phases = [
-        {
-            phase_number: "240015.01",
-            name: "Trap",
-            status: "🟢",
-        },
-        {
-            phase_number: "240015.02",
-            name: "Binnenbalustrade",
-            status: "🟡",
-        },
-        {
-            phase_number: "240015.03",
-            name: "Balkons",
+    const [loading, setLoading] = useState(true);
+
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+
+        async function loadProject() {
+
+            try {
+
+                setLoading(true);
+                setError("");
+
+                const result =
+                    await getProject(projectNumber);
+
+                setProject(result);
+
+            } catch (error) {
+
+                console.error(error);
+
+                setError(
+                    "Project kon niet worden geladen."
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        }
+
+        loadProject();
+
+    }, [projectNumber]);
+
+    const phases =
+        project?.phases?.map((phase) => ({
+            phase_number: phase.code,
+            name: phase.name,
             status: "🔴",
-        },
-        {
-            phase_number: "240015.500",
-            name: "Meerwerk",
-            status: "🔴",
-        },
-    ];
+        })) || [];
 
     function getPhaseStatus(phase) {
 
@@ -107,6 +131,36 @@ export default function ProjectDetail() {
     }
 
     function renderTab() {
+
+        if (loading) {
+
+            return (
+                <Typography
+                    sx={{
+                        mt: 3,
+                        color: "#FFFFFF",
+                    }}
+                >
+                    Project laden...
+                </Typography>
+            );
+
+        }
+
+        if (error) {
+
+            return (
+                <Typography
+                    sx={{
+                        mt: 3,
+                        color: "#FFFFFF",
+                    }}
+                >
+                    {error}
+                </Typography>
+            );
+
+        }
 
         switch (tab) {
 
@@ -335,19 +389,25 @@ export default function ProjectDetail() {
 
         <Box>
 
-            <ProjectHeader
-                project={project}
-                selectedPhase={selectedPhase}
-            />
+            {project && (
+
+                <ProjectHeader
+                    project={project}
+                    selectedPhase={selectedPhase}
+                />
+
+            )}
 
             <ProjectTabs
                 tab={tab}
                 setTab={(value) => {
+
                     setTab(value);
 
                     if (value === 0) {
                         setSelectedPhase(null);
                     }
+
                 }}
                 selectedPhase={selectedPhase}
             />

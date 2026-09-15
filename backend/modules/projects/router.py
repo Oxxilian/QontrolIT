@@ -66,3 +66,36 @@ def import_project(project_path: str):
             project_path
         )
     )
+
+
+@router.get("/{project_number}")
+def get_project(
+    project_number: str,
+):
+
+    project = ProjectService().get(
+        project_number,
+    )
+
+    if project is None:
+
+        return success(None)
+
+    return success(
+        {
+            "id": project.id,
+            "project_number": project.project_number,
+            "project_name": project.project_name,
+            "customer": project.customer,
+            "path": project.path,
+            "active": project.active,
+            "phases": [
+                {
+                    "id": phase.id,
+                    "code": phase.code,
+                    "name": phase.name,
+                }
+                for phase in project.phases
+            ],
+        }
+    )
