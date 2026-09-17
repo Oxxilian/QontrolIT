@@ -28,18 +28,14 @@ class ProjectAnalyzer:
 
         production = phase["production"]
 
-        if not production["production_drawings"]["enabled"]:
-            warnings.append(
-                "Productietekeningen ontbreken."
-            )
+        production_found = any(
+            item["enabled"]
+            for item in production.values()
+        )
 
-        if (
-            not production["plate_cutting"]["enabled"]
-            and not production["profile_cutting"]["enabled"]
-            and not production["sawing"]["enabled"]
-        ):
+        if not production_found:
             warnings.append(
-                "Geen productie gevonden."
+                "Geen voorbewerking gevonden."
             )
 
         return warnings

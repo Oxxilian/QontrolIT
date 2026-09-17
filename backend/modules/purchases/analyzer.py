@@ -28,6 +28,8 @@ class PurchaseAnalyzer:
             "order_date": "",
             "delivery_date": "",
             "delivery_address": "",
+            "operation": "",
+            "operation_type": "",
             "lines": [],
         }
 

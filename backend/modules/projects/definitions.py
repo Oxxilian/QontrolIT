@@ -27,6 +27,14 @@ PRODUCTION_TYPES = {
         ],
     },
 
+    "profile_laser": {
+        "label": "Profiellaser",
+        "keywords": [
+            "profiellaser",
+            "profiel laser",
+        ],
+    },
+
     "sawing": {
         "label": "Zaagwerk",
         "keywords": [

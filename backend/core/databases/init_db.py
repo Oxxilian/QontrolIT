@@ -5,6 +5,7 @@ from .database import engine
 from backend.modules.purchases.models import (
     PurchaseOrder,
     PurchaseOrderLine,
+    PurchaseReceipt,
 )
 
 from backend.modules.suppliers.models import (

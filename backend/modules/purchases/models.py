@@ -83,6 +83,11 @@ class PurchaseOrder(Base):
         cascade="all, delete-orphan",
     )
 
+    receipts: Mapped[list["PurchaseReceipt"]] = relationship(
+        back_populates="purchase_order",
+        cascade="all, delete-orphan",
+    )
+
 
 class PurchaseOrderLine(Base):
     """
@@ -132,4 +137,45 @@ class PurchaseOrderLine(Base):
 
     purchase_order: Mapped["PurchaseOrder"] = relationship(
         back_populates="lines",
+    )
+
+    receipts: Mapped[list["PurchaseReceipt"]] = relationship(
+        back_populates="purchase_order_line",
+        cascade="all, delete-orphan",
+    )
+
+
+class PurchaseReceipt(Base):
+    """
+    Ontvangst van een specifieke regel van een inkooporder.
+    """
+
+    __tablename__ = "purchase_receipts"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement=True,
+    )
+
+    purchase_order_id: Mapped[int] = mapped_column(
+        ForeignKey("purchase_orders.id"),
+        index=True,
+    )
+
+    purchase_order_line_id: Mapped[int] = mapped_column(
+        ForeignKey("purchase_order_lines.id"),
+        index=True,
+    )
+
+    quantity_received: Mapped[float] = mapped_column(
+        Float,
+        default=0,
+    )
+
+    purchase_order: Mapped["PurchaseOrder"] = relationship(
+        back_populates="receipts",
+    )
+
+    purchase_order_line: Mapped["PurchaseOrderLine"] = relationship(
+        back_populates="receipts",
     )

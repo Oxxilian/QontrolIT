@@ -1,24 +1,26 @@
 """
-Definities van productieonderdelen.
+Definities van de voorbewerkingen.
 """
 
 PRODUCTION_TYPES = {
 
-    "plate_cutting": {
-        "label": "Platen snijwerk",
+    "plate_laser": {
+        "label": "Laserwerk platen",
         "keywords": (
-            "snijwerk plaat",
-            "plaat",
+            "laserwerk plaat",
+            "laserwerk platen",
+            "plaatlaser",
+            "platenlaser",
         ),
     },
 
-    "profile_cutting": {
-        "label": "Profielen snijwerk",
+    "profile_laser": {
+        "label": "Laserwerk profielen",
         "keywords": (
-            "snijwerk profiel",
-            "snijwerk koker",
-            "profiel",
-            "koker",
+            "profiellaser",
+            "profiel laser",
+            "laserwerk profiel",
+            "laserwerk profielen",
         ),
     },
 
@@ -29,21 +31,19 @@ PRODUCTION_TYPES = {
         ),
     },
 
-    "production_drawings": {
-        "label": "Productietekeningen",
+    "rolling": {
+        "label": "Walsen",
         "keywords": (
-            "werkplaatstekening",
-            "werkplaats tekening",
-            "werkplaats tekeningen",
+            "walswerk",
+            "walsen",
         ),
     },
 
-    "assembly_drawings": {
-        "label": "Montagetekeningen",
+    "bending": {
+        "label": "Zetwerk",
         "keywords": (
-            "montagetekening",
-            "montage tekening",
-            "montage tekeningen",
+            "zetwerk",
+            "zetten",
         ),
     },
 
